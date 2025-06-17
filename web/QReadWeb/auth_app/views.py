@@ -10,7 +10,17 @@ class Login(View):
     def get(self, request):
         return render(request, 'auth_app/login.html')
     
+class Register(View):
+    def get(self, request):
+        return render(request, 'auth_app/register.html')
+    
 class RegisterView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]  # Qualquer um pode registrar
+
+    response = {
+        "status": "success",
+        "message": "Usuário registrado com sucesso.",
+        "success": True,
+    }

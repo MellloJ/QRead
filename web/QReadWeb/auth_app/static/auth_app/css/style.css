@@ -51,7 +51,7 @@
     color: #fff;
 }
 
-#login-form {
+.form-auth {
     color: #fff;
 }
 
@@ -65,7 +65,7 @@
     text-decoration: underline;
 }
 
-#login-form label {
+.form-auth label {
     display: block;
     float: left;
 }

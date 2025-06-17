@@ -27,3 +27,16 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+    
+    def to_representation(self, instance):
+        # Personaliza a resposta
+        return {
+            'status': 'success',
+            'message': 'Usuário registrado com sucesso!',
+            'success': True,
+            'user': {
+                'id': instance.id,
+                'username': instance.username,
+                'email': instance.email
+            }
+        }
