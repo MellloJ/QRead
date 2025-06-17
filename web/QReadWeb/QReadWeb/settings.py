@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'core',
     'auth_app',
     'users',
@@ -67,10 +68,21 @@ WSGI_APPLICATION = 'QReadWeb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'qread_db',
+        'USER': 'qread_user_db',
+        'PASSWORD': '1',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -108,7 +120,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# Diretório onde os arquivos estáticos serão coletados em produção
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Diretórios onde o Django procurará arquivos estáticos
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Diretório global de arquivos estáticos
+]
+
+# URL para acessar arquivos estáticos
+STATIC_URL = "/static/"
+
+# Opcional: Define o local onde o Django procurará arquivos estáticos nos apps
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
