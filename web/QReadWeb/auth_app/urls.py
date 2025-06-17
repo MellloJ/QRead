@@ -4,4 +4,5 @@ from auth_app.views import *
 
 urlpatterns = [
     path('', Login.as_view(), name='login'),
+    path('api/register/', RegisterView.as_view(), name='register'),
 ]
