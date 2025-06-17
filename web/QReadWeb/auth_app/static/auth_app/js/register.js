@@ -12,14 +12,30 @@ $('#register-form').on('submit', function(event) {
         success: function(response) {
             // Handle success response
             if (response.success) {
-                window.location.href = '/';
+                Swal.fire({
+                    text: "Usuário cadastrado com sucesso!",
+                    icon: "success",
+                    timer: 2000, // Alerta visível por 2 segundos (2000 ms)
+                    timerProgressBar: true, // Exibe uma barra de progresso (opcional)
+                    showConfirmButton: false // Oculta o botão "OK"
+                }).then(function() {
+                    // Redireciona após o alerta fechar
+                    window.location.href = '/';
+                });
             } else {
-                alert('Registration failed: ' + response.message);
+                Swal.fire({
+                    text: "Erro ao cadastrar usuário!",
+                    icon: "error", // Corrigido de "danger" para "error" (padrão do SweetAlert2)
+                });
+                console.error('Registration error:', response.error);
             }
         },
         error: function(xhr, status, error) {
-            // Handle error response
-            alert('An error occurred: ' + error);
+            Swal.fire({
+                text: "Erro ao cadastrar usuário!",
+                icon: "error",
+            });
+            console.error('AJAX error:', status, error);
         }
     });
 });
