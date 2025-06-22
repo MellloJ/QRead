@@ -2,6 +2,8 @@
 from rest_framework import serializers
 from auth_app.models import CustomUser  # Ou CustomUser, se personalizado
 from rest_framework.validators import UniqueValidator
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth import authenticate
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -15,16 +17,19 @@ class RegisterSerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=CustomUser.objects.all())]
     )
 
+    name = serializers.CharField(required=False, allow_blank=True)
+
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'password')
+        fields = ('username', 'email', 'password', 'name')
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
-            password=validated_data['password']
+            password=validated_data['password'],
+            name=validated_data.get('name', '')
         )
         return user
     
@@ -40,3 +45,25 @@ class RegisterSerializer(serializers.ModelSerializer):
                 'email': instance.email
             }
         }
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = 'email'  # Usa email como identificador
+
+    def validate(self, attrs):
+        user = authenticate(
+            email=attrs.get('email'),
+            password=attrs.get('password')
+        )
+        if user is None:
+            raise serializers.ValidationError('Credenciais inválidas')
+        
+        data = super().validate(attrs)
+        data.update({
+            'user': {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'name': user.name if hasattr(user, 'name') else None,
+            }
+        })
+        return data

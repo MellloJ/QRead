@@ -3,5 +3,5 @@ from django.urls import path, include
 from core.views import *
 
 urlpatterns = [
-    # path('', Index.as_view(), name='index'),
+    path('', Dashboard.as_view(), name='dashboard'),
 ]

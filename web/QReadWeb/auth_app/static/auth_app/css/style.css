@@ -56,8 +56,9 @@
 }
 
 #login-right a {
-    color: #b76cf0;
+    color: #60bbd6;
     text-decoration: none;
+    font-weight: bolder;
 }
 
 #login-right a:hover {

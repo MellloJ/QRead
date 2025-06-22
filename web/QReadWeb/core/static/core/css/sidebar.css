@@ -1,0 +1,53 @@
+body {
+    overflow-x: hidden;
+    padding-top: 56px; /* Ajusta o conteúdo para não ser sobreposto pelo header fixo */
+}
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #343a40;
+    padding-top: 20px;
+    transition: transform 0.3s ease;
+}
+.sidebar.collapsed {
+    transform: translateX(-250px);
+}
+.sidebar .nav-link {
+    color: #ffffff;
+    padding: 10px 15px;
+    font-size: 1.1rem;
+}
+.sidebar .nav-link:hover {
+    background-color: #495057;
+}
+.sidebar .nav-link i {
+    margin-right: 10px;
+}
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+.content.collapsed {
+    margin-left: 0;
+}
+.toggle-btn .bi-list {
+    transition: transform 0.3s ease;
+}
+.toggle-btn.collapsed .bi-list {
+    transform: rotate(90deg); /* Efeito visual para indicar o estado colapsado */
+}
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-250px); /* Menu colapsado por padrão em telas pequenas */
+    }
+    .sidebar.collapsed {
+        transform: translateX(0); /* Menu aberto quando colapsado */
+    }
+    .content {
+        margin-left: 0;
+    }
+}

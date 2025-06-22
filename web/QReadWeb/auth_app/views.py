@@ -4,6 +4,8 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from .serializers import RegisterSerializer
 from auth_app.models import CustomUser 
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
 
 # Create your views here.
 class Login(View):
@@ -24,3 +26,6 @@ class RegisterView(generics.CreateAPIView):
         "message": "Usuário registrado com sucesso.",
         "success": True,
     }
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

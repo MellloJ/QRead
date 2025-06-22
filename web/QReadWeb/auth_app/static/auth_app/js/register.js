@@ -7,7 +7,7 @@ $('#register-form').on('submit', function(event) {
     // Send the data to the server using AJAX
     $.ajax({
         type: 'POST',
-        url: '/api/register/',
+        url: 'login/api/register/',
         data: formData,
         success: function(response) {
             // Handle success response
@@ -17,7 +17,7 @@ $('#register-form').on('submit', function(event) {
                     icon: "success",
                     timer: 2000, // Alerta visível por 2 segundos (2000 ms)
                     timerProgressBar: true, // Exibe uma barra de progresso (opcional)
-                    showConfirmButton: false // Oculta o botão "OK"
+                    showConfirmButton: true // Oculta o botão "OK"
                 }).then(function() {
                     // Redireciona após o alerta fechar
                     window.location.href = '/';
