@@ -1,0 +1,15 @@
+{% extends 'core/layout/layout.html' %}
+
+{% block title %}QRead - Criar QR Code{% endblock %}
+
+{% block content %}
+    <h1>Criar Novo QR Code</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="content" class="form-label">URL ou Texto</label>
+            <input type="url" class="form-control" id="content" name="content" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Gerar QR Code</button>
+    </form>
+{% endblock %}

@@ -7,7 +7,7 @@ $('#register-form').on('submit', function(event) {
     // Send the data to the server using AJAX
     $.ajax({
         type: 'POST',
-        url: 'login/api/register/',
+        url: '/login/api/register/', // Replace with your actual registration endpoint
         data: formData,
         success: function(response) {
             // Handle success response

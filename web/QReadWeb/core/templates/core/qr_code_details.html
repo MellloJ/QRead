@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalhes do QR Code - {{ qr_code.short_url }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Detalhes do QR Code: {{ qr_code.short_url }}</h1>
+    <p>Link: <a href="{{ qr_code.content }}" target="_blank">{{ qr_code.content }}</a></p>
+    <p>Criado em: {{ qr_code.created_at }}</p>
+    <p>Total de Escaneamentos: {{ scans|length }}</p>
+    
+    <h2>Estatísticas (Últimos 7 Dias)</h2>
+    <canvas id="scanChart"></canvas>
+    <script>
+        const ctx = document.getElementById('scanChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ scan_data|safe|keys|list }},
+                datasets: [{
+                    label: 'Escaneamentos',
+                    data: {{ scan_data|safe|values|list }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+
+    <h2>Localizações</h2>
+    <ul>
+        {% for location in locations %}
+            <li>{{ location.city }} - {{ location.country }}: {{ location.count }} escaneamentos</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Escaneamentos Individuais</h2>
+    <ul>
+        {% for scan in scans %}
+            <li>{{ scan.scan_time }} - IP: {{ scan.ip_address }} - Cidade: {{ scan.city }} - País: {{ scan.country }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'core:dashboard' %}" class="btn btn-secondary">Voltar ao Dashboard</a>
+</body>
+</html>

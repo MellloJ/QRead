@@ -7,11 +7,11 @@ $('#login-form').on('submit', function(event) {
     // Send the data to the server using AJAX
     $.ajax({
         type: 'POST',
-        url: 'login/api/login/',
+        url: '/web/login/',
         data: formData,
         success: function(response) {
             // Handle success response
-            if (response.success) {
+            if (response.status == 'success') {
                 Swal.fire({
                     text: "Login realizado com sucesso!",
                     icon: "success",

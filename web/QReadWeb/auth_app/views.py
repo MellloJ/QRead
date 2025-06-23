@@ -6,6 +6,8 @@ from .serializers import RegisterSerializer
 from auth_app.models import CustomUser 
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import CustomTokenObtainPairSerializer
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
 
 # Create your views here.
 class Login(View):
@@ -29,3 +31,14 @@ class RegisterView(generics.CreateAPIView):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+class LoginWeb(View):
+    def post(self, request):
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'status': 'success', 'message': 'Login realizado com sucesso.'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Usuário ou senha inválidos.'}, status=401)

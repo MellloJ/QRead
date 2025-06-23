@@ -3,5 +3,107 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <h1>Dashboard</h1>
+    <h1>Dashboard de QR Codes</h1>
+    <a href="{% url 'core:create_qr_code' %}" class="btn btn-primary mb-3">Criar Novo QR Code</a>
+
+    <h2>Seus QR Codes</h2>
+    <div class="row">
+        {% for qr in qrcodes %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="{{ qr.image.url }}" class="card-img-top" alt="QR Code">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ qr.content }}</h5>
+                        <p class="card-text">Escaneamentos: {{ qr.scans.count }}</p>
+                        <a href="{{ qr.get_absolute_url }}" class="btn btn-secondary">Testar QR Code</a>
+                        <a href="{% url 'core:qr_code_details' short_url=qr.short_url %}" class="btn btn-info mt-2">Detalhes</a>
+                        <form action="{% url 'core:qrcode-detail' pk=qr.id %}" method="post" style="display:inline-block; margin-top: 10px;">
+                            {% csrf_token %}
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este QR Code?')">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>Nenhum QR code criado ainda.</p>
+        {% endfor %}
+    </div>
+
+    <h2>Estatísticas de Escaneamentos</h2>
+    <canvas id="scanChart" width="400" height="200"></canvas>
+
+    <h2>Localizações</h2>
+    <ul class="list-group">
+        {% for loc in locations %}
+            <li class="list-group-item">{{ loc.city }}, {{ loc.country }}: {{ loc.count }} escaneamentos</li>
+        {% empty %}
+            <li class="list-group-item">Nenhum escaneamento registrado.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Últimos Escaneamentos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>QR Code</th>
+                <th>Data/Hora</th>
+                <th>IP</th>
+                <th>Cidade</th>
+                <th>País</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for scan in scans %}
+                <tr>
+                    <td>{{ scan.qr_code.content }}</td>
+                    <td>{{ scan.scan_time }}</td>
+                    <td>{{ scan.ip_address }}</td>
+                    <td>{{ scan.city }}</td>
+                    <td>{{ scan.country }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Nenhum escaneamento registrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const scanData = {{ scan_data|safe }};
+        const ctx = document.getElementById('scanChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(scanData),
+                datasets: [{
+                    label: 'Escaneamentos por Dia',
+                    data: Object.values(scanData),
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Escaneamentos'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Data'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 {% endblock %}

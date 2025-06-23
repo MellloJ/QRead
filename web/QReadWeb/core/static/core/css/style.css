@@ -4,3 +4,9 @@
     box-sizing: border-box;
     font-family: Poppins, sans-serif;
 }
+
+/* Estilos adicionais para o projeto */
+.card-img-top {
+    max-width: 200px;
+    margin: 10px auto;
+}

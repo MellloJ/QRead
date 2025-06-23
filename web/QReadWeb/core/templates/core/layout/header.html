@@ -7,13 +7,13 @@
             <i class="bi bi-list"></i>
         </button>
         <!-- Título/Logo -->
-        <a class="navbar-brand" href="{% url 'dashboard' %}">QRead</a>
+        <a class="navbar-brand" href="{% url 'core:dashboard' %}">QRead</a>
         <!-- Links à direita -->
         <div class="ms-auto d-flex align-items-center">
-            <a class="nav-link text-white me-3" href="#">
+            <a class="nav-link text-white me-3" href="{% url 'core:perfil' %}">
                 <i class="bi bi-person"></i> Perfil
             </a>
-            <a class="nav-link text-white" href="#">
+            <a class="nav-link text-white" href="{% url 'core:sair' %}">
                 <i class="bi bi-box-arrow-right"></i> Sair
             </a>
         </div>

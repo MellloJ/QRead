@@ -1,4 +1,6 @@
+import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -109,12 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'pt-br'
+TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -145,6 +144,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = True
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -155,3 +159,11 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'auth_app.CustomUser'
+
+# Configuração do GeoIP2
+GEOIP_PATH = os.path.join(BASE_DIR, 'core/geoip/GeoLite2-City.mmdb')
+
+LOGIN_URL = 'auth_app.login'
+
+SITE_URL = 'https://866a-149-19-165-57.ngrok-free.app'  # Para desenvolvimento local
+# Em produção, mude para o domínio real (ex.: 'https://seu-dominio.com')

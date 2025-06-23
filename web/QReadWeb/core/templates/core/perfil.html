@@ -1,0 +1,9 @@
+{% extends 'core/layout/layout.html' %}
+
+{% block title %}QRead - Perfil{% endblock %}
+
+{% block content %}
+    <h1>Perfil do Usuário</h1>
+    <p>Nome: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+{% endblock %}
