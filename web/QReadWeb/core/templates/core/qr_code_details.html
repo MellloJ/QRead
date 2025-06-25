@@ -13,14 +13,15 @@
     <h2>Estatísticas (Últimos 7 Dias)</h2>
     <canvas id="scanChart"></canvas>
     <script>
+        const scanData = JSON.parse('{{ scan_data|escapejs }}');
         const ctx = document.getElementById('scanChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: {{ scan_data|safe|keys|list }},
+                labels: Object.keys(scanData),
                 datasets: [{
                     label: 'Escaneamentos',
-                    data: {{ scan_data|safe|values|list }},
+                    data: Object.values(scanData),
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
