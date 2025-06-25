@@ -1,7 +1,0 @@
-{
-  "name": "QReadMobile",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}
